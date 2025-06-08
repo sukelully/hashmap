@@ -12,6 +12,7 @@ export default class HashMap {
     let hashCode = 0;
     const primeNumber = 31;
     const MAX_INT = 2 ** 32;
+
     for (let i = 0; i < key.length; i++) {
       hashCode = (primeNumber * hashCode + key.charCodeAt(i)) % MAX_INT;
     }
@@ -52,14 +53,34 @@ export default class HashMap {
   get(key) {
     const index = this.hash(key);
     let current = this.buckets[index];
+
     if (current.key === key) {
       return current;
     } else {
+      // Loop through list until key is found
       while (current.nextNode !== null) {
         current = current.nextNode;
         if (current.key === key) return current;
       }
+
       return null;
     }
+  }
+
+  has(key) {
+    const index = this.hash(key);
+    let current = this.buckets[index];
+
+    if (current.key === key) {
+      return true;
+    } else {
+      while (current.nextNode !== null) {
+        current = current.nextNode;
+        if (current.key === key) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }
