@@ -28,21 +28,38 @@ export default class HashMap {
     }
 
     if (this.buckets[index] === null) {
+      // Set new key value pair if bucket is empty
       this.buckets[index] = new Node(key, value);
     } else {
       current = this.buckets[index];
 
+      // Update key if it already exists
+      if (current.key === key) {
+        current.value = value;
+        return;
+      }
+      
+      // Go to end of list
       while (current.nextNode !== null) {
         current = current.nextNode;
       }
 
+      // Append new node
       current.nextNode = new Node(key, value);
     }
   }
 
   get(key) {
     const index = this.hash(key);
-    console.log(this.buckets);
-    return this.buckets[index];
+    let current = this.buckets[index];
+    if (current.key === key) {
+      return current;
+    } else {
+      while (current.nextNode !== null) {
+        current = current.nextNode;
+        if (current.key === key) return current;
+      }
+      return null;
+    }
   }
 }
