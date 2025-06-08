@@ -16,5 +16,7 @@ test.set("lion", "golden");
 
 console.log(test.get("dog"));
 
-console.log(test.has("dog"));
-console.log(test.has("boobs"));
+console.log(test.remove("dog"));
+console.log(test.remove("boobs"));
+
+// console.log(test.remove(""));

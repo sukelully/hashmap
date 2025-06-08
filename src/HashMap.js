@@ -9,6 +9,8 @@ export default class HashMap {
   }
 
   hash(key) {
+    if (key === "" || key === null) throw new Error("Invalid key");
+
     let hashCode = 0;
     const primeNumber = 31;
     const MAX_INT = 2 ** 32;
@@ -57,7 +59,6 @@ export default class HashMap {
     if (current.key === key) {
       return current;
     } else {
-      // Loop through list until key is found
       while (current.nextNode !== null) {
         current = current.nextNode;
         if (current.key === key) return current;
@@ -82,5 +83,29 @@ export default class HashMap {
       }
     }
     return false;
+  }
+
+  remove(key) {
+    const index = this.hash(key);
+    let current = this.buckets[index];
+
+    if (current.key === key) {
+      if (current.nextNode !== null) {
+        current.nextNode = current;
+        return true;
+      } else {
+        current = null;
+        return true;
+      }
+    } else {
+      while (current.nextNode !== null) {
+        current = current.nextNode;
+        if (current.key === key) {
+          current.nextNode = current;
+          return true;
+        }
+      }
+      return false;
+    }
   }
 }
