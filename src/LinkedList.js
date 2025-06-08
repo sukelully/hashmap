@@ -1,39 +1,32 @@
 export default class LinkedList {
-    constructor() {
-        this.head = null;
-        this.tail = null;
+  constructor() {
+    this.head = null;
+    this.tail = null;
+  }
+
+  append(val) {
+    if (val === null || val === undefined) throw new Error("Invalid val");
+
+    const node = new Node(val);
+
+    if (!this.head) {
+      this.tail = node;
+      this.head = node;
+    } else {
+      this.tail.nextNode = node;
+      this.tail = node;
     }
+  }
 
-    append(val) {
-        if (val === null || val === undefined) return "Error";
+  toString() {
+    let current = this.head;
+    let outputString = `( ${this.head.val} ) -> `;
 
-        const node = new Node(val);
-
-        if (!this.head) {
-            this.tail = node;
-            this.head = node;
-        } else {
-            this.tail.nextNode = node;
-            this.tail = node;
-        }
+    while (current.nextNode) {
+      current = current.nextNode;
+      outputString += `( ${current.val} ) -> `;
     }
-
-    toString() {
-        let current = this.head;
-        let outputString = `( ${this.head.val} ) -> `;
-
-        while (current.nextNode) {
-            current = current.nextNode;
-            outputString += `( ${current.val} ) -> `;
-        }
-        outputString += "null";
-        return outputString;
-    }
-}
-
-class Node {
-    constructor(val = null) {
-        this.val = val;
-        this.nextNode = null;
-    }
+    outputString += "null";
+    return outputString;
+  }
 }
