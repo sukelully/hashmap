@@ -1,6 +1,6 @@
 import HashMap from "./HashMap.js";
 
 const test = new HashMap();
-const hash = test.hash("petunia");
+test.set('apple', 'red')
 
-console.log(hash);
+console.log(test.get('apple'));
