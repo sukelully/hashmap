@@ -13,10 +13,10 @@ export default class HashMap {
 
     let hashCode = 0;
     const primeNumber = 31;
-    const MAX_INT = 2 ** 32;
+    const maxInt = 2 ** 32;
 
     for (let i = 0; i < key.length; i++) {
-      hashCode = (primeNumber * hashCode + key.charCodeAt(i)) % MAX_INT;
+      hashCode = (primeNumber * hashCode + key.charCodeAt(i)) % maxInt;
     }
 
     return hashCode % this.capacity;
@@ -41,7 +41,7 @@ export default class HashMap {
         current.value = value;
         return;
       }
-      
+
       // Go to end of list
       while (current.nextNode !== null) {
         current = current.nextNode;
@@ -55,6 +55,8 @@ export default class HashMap {
   get(key) {
     const index = this.hash(key);
     let current = this.buckets[index];
+
+    if (current === null) return "Bucket is empty";
 
     if (current.key === key) {
       return current;
@@ -71,6 +73,8 @@ export default class HashMap {
   has(key) {
     const index = this.hash(key);
     let current = this.buckets[index];
+
+    // if (current === null) return "Bucket is empty";
 
     if (current.key === key) {
       return true;
@@ -89,23 +93,17 @@ export default class HashMap {
     const index = this.hash(key);
     let current = this.buckets[index];
 
+    if (current === null) return "Bucket is empty";
+
     if (current.key === key) {
       if (current.nextNode !== null) {
-        current.nextNode = current;
-        return true;
+        console.log('not head node');
+        return;
       } else {
-        current = null;
+        // Delete head node
+        this.buckets[index] = current.nextNode;
         return true;
       }
-    } else {
-      while (current.nextNode !== null) {
-        current = current.nextNode;
-        if (current.key === key) {
-          current.nextNode = current;
-          return true;
-        }
-      }
-      return false;
     }
   }
 }
