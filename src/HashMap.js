@@ -1,8 +1,10 @@
+import LinkedList from "./LinkedList.js";
+
 export default class HashMap {
   constructor(loadFactor = 0.8, capacity = 16) {
     this.loadFactor = loadFactor;
     this.capacity = capacity;
-    this.map = new Array(this.capacity).fill(null);
+    this.buckets = new Array(this.capacity).fill(null);
   }
 
   hash(key) {
@@ -18,15 +20,20 @@ export default class HashMap {
 
   set(key, value) {
     const index = this.hash(key);
-    console.log(index);
 
-    this.map.splice(index, 0, value);
+    if (this.buckets[index] === null) {
+      this.buckets[index] = value;
+    } else {
+      let temp = this.buckets[index];
+      this.buckets[index] = new LinkedList;
+      this.buckets[index].append(temp);
+      this.buckets[index].append(value);
+    }
   }
 
   get(key) {
     const index = this.hash(key);
-    console.log(index);
-    console.log(this.map);
-    return this.map[index];
+    console.log(this.buckets);
+    return this.buckets[index];
   }
 }
