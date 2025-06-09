@@ -74,7 +74,7 @@ export default class HashMap {
     const index = this.hash(key);
     let current = this.buckets[index];
 
-    // if (current === null) return "Bucket is empty";
+    if (current === null) return "Bucket is empty";
 
     if (current.key === key) {
       return true;
@@ -92,18 +92,27 @@ export default class HashMap {
   remove(key) {
     const index = this.hash(key);
     let current = this.buckets[index];
+    let prev = null;
 
     if (current === null) return "Bucket is empty";
 
-    if (current.key === key) {
-      if (current.nextNode !== null) {
-        console.log('not head node');
-        return;
-      } else {
-        // Delete head node
-        this.buckets[index] = current.nextNode;
+    while (current) {
+      if (current.key === key) {
+        if (prev === null) {
+          // Remove head
+          this.buckets[index] = null;
+        } else {
+          prev.nextNode = current.nextNode;
+        }
         return true;
       }
+      prev = current;
+      current = current.nextNode;
     }
+    return false;
+  }
+
+  getBuckets() {
+    return this.buckets;
   }
 }

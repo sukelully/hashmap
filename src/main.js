@@ -13,8 +13,3 @@ test.set("ice cream", "white");
 test.set("jacket", "blue");
 test.set("kite", "pink");
 test.set("lion", "golden");
-
-console.log(test.remove("kite"));
-console.log(test.remove("boobs"));
-
-console.log(test.has("kite"));
