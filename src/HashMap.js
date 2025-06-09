@@ -24,7 +24,7 @@ export default class HashMap {
 
   set(key, value) {
     const index = this.hash(key);
-    let current;
+    let current = this.buckets[index];
 
     if (index < 0 || index >= this.buckets.length) {
       throw new Error("Trying to access index out of bounds");
@@ -34,17 +34,22 @@ export default class HashMap {
       // Set new key value pair if bucket is empty
       this.buckets[index] = new Node(key, value);
     } else {
-      current = this.buckets[index];
-
-      // Update key if it already exists
-      if (current.key === key) {
-        current.value = value;
-        return;
-      }
-
       // Go to end of list
       while (current.nextNode !== null) {
+        // INCORRECT
+        // Update key if it already exists
+        if (current.key === key) {
+          console.log(current.key);
+          current.value = value;
+          return;
+        }
         current = current.nextNode;
+      }
+
+      if (current.key === key) {
+        console.log(current.key);
+        current.value = value;
+        return;
       }
 
       // Append new node
@@ -56,7 +61,7 @@ export default class HashMap {
     const index = this.hash(key);
     let current = this.buckets[index];
 
-    if (current === null) return "Bucket is empty";
+    if (current === null) return null;
 
     if (current.key === key) {
       return current;
@@ -74,7 +79,7 @@ export default class HashMap {
     const index = this.hash(key);
     let current = this.buckets[index];
 
-    if (current === null) return "Bucket is empty";
+    if (current === null) return false;
 
     if (current.key === key) {
       return true;
@@ -94,13 +99,13 @@ export default class HashMap {
     let current = this.buckets[index];
     let prev = null;
 
-    if (current === null) return "Bucket is empty";
+    if (current === null) return false;
 
     while (current) {
       if (current.key === key) {
         if (prev === null) {
           // Remove head
-          this.buckets[index] = null;
+          this.buckets[index] = current.nextNode;
         } else {
           prev.nextNode = current.nextNode;
         }
@@ -161,17 +166,11 @@ export default class HashMap {
     for (const bucket of this.buckets) {
       let current = bucket;
       while (current) {
-        const keyValue = [];
-        keyValue.push(current.key);
-        keyValue.push(current.value);
+        const keyValue = [current.key, current.value];
         current = current.nextNode;
-        if (keyValue.length !== 0) entries.push(keyValue);
+        entries.push(keyValue);
       }
     }
     return entries;
-  }
-
-  getBuckets() {
-    return this.buckets;
   }
 }
