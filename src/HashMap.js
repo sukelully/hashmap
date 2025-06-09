@@ -114,6 +114,7 @@ export default class HashMap {
 
   length() {
     let count = 0;
+
     for (const bucket of this.buckets) {
       let current = bucket;
       while (current) {
@@ -126,6 +127,48 @@ export default class HashMap {
 
   clear() {
     this.buckets.fill(null);
+  }
+
+  keys() {
+    const keys = [];
+
+    for (const bucket of this.buckets) {
+      let current = bucket;
+      while (current) {
+        keys.push(current.key);
+        current = current.nextNode;
+      }
+    }
+    return keys;
+  }
+
+  values() {
+    const values = [];
+
+    for (const bucket of this.buckets) {
+      let current = bucket;
+      while (current) {
+        values.push(current.value);
+        current = current.nextNode;
+      }
+    }
+    return values;
+  }
+
+  entries() {
+    const entries = [];
+
+    for (const bucket of this.buckets) {
+      let current = bucket;
+      while (current) {
+        const keyValue = [];
+        keyValue.push(current.key);
+        keyValue.push(current.value);
+        current = current.nextNode;
+        if (keyValue.length !== 0) entries.push(keyValue);
+      }
+    }
+    return entries;
   }
 
   getBuckets() {
