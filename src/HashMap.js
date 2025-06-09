@@ -112,6 +112,22 @@ export default class HashMap {
     return false;
   }
 
+  length() {
+    let count = 0;
+    for (const bucket of this.buckets) {
+      let current = bucket;
+      while (current) {
+        count++;
+        current = current.nextNode;
+      }
+    }
+    return count;
+  }
+
+  clear() {
+    this.buckets.fill(null);
+  }
+
   getBuckets() {
     return this.buckets;
   }
