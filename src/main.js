@@ -14,8 +14,11 @@ test.set("jacket", "blue");
 test.set("kite", "pink");
 test.set("lion", "golden");
 
-console.log(test.entries());
+// console.log(test.entries());
 
 test.set("apple", "burgandy");
+test.set("aeroplane", "white");
+test.set("yam", "clay");
 
 console.log(test.entries());
+console.log(test.buckets.length);
